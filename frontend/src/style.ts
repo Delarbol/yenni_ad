@@ -80,15 +80,20 @@ const YenButton = styled.button`
 
 const ResultContainer = styled.div`
    display: flex;
-   width: 800px;
+   width: 90%;
+   max-width: 800px;
    flex-direction: row;
    flex-wrap: wrap;
    justify-content: center;
    align-items: center;
    align-content: center;
+   border-radius: 8px;
+   padding: 5px 5px;
+   border: 1px solid white;
 
    img {
-    width: 200px;
+    width: 100%;
+    max-width: 300px;
     margin: 5px;
    }
 

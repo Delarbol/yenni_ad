@@ -27,7 +27,7 @@ interface Data {
 }
 
 const Home = () => {
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [data, setData] = useState({});
 
   const {
@@ -55,7 +55,14 @@ const Home = () => {
   return (
     <Layout>
       <ImgContainer className="brand" src={logoBrand} alt="logo" />
-        <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      {success ? <><h3>Hola las fotos recomendadas son:</h3><ResultContainer>
+          {(data as Data)?.imagenes?.map((img: string) => (
+            <img key={img} src={img} alt="img" />
+          ))}
+        </ResultContainer>
+        <h3>Y el texto recomendado es:</h3>
+        <h4>{(data as Data)?.prompt} </h4>
+        </> : <FormContainer onSubmit={handleSubmit(onSubmit)}>
           <YenSelect id="nodo" {...register("nodo")}>
             <option value="">Selecciona un nodo</option>
             <option
@@ -80,13 +87,7 @@ const Home = () => {
           <YenButton type="submit" disabled={!isValid}>
             Enviar
           </YenButton>
-        </FormContainer>
-      {success && <><ResultContainer>
-          {(data as Data)?.imagenes?.map((img: string) => (
-            <img key={img} src={img} alt="img" />
-          ))}
-        </ResultContainer>
-        <h3>Prompt Recomendado: {(data as Data)?.prompt} </h3></>}
+        </FormContainer>}
     </Layout>
   );
 };
