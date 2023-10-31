@@ -19,11 +19,9 @@
 
 - [Relevancia para el negocio](#relevancia-para-el-negocio)
 
-- Pruebas unitarias
+- [Pruebas unitarias y manejo de sesgos en el modelo](#pruebas-unitarias-y-manejo-de-sesgos-del-modelo)
 
-- Prevención de sesgos en el modelo
-
-- Roles de los participantes y sus perfiles
+- [Roles de los participantes y sus perfiles](#los-roles-de-los-participantes-y-la-historia-de-cómo-llegamos-a-la-solución)
 
 
 
@@ -121,7 +119,7 @@ El endpoint de sagemaker es consumido por la función lambda y recibe los parame
 Los resultados se almacenan en el bucket de S3 y se devuelven al front para que sean recibidos por el usuario.
 
 -----------------
-
+[Volver al inicio](#yenni_ad)
 
 ## Relevancia para el negocio
 
@@ -158,31 +156,71 @@ Inspirados por las siglas de la Generative AI, queriendo también darle un toque
 Este nombre busca también ser compatible con las nomenclaturas que usa el banco para sus herramientas, considerando por ejemplo a Sofy. Esto adicionalmente nos da la libertad para poder, bajo el mismo nombre, agregar a futuro funcionalidades que complementen a Yenni y la hagan la asistente virtual no solo de pauta sino de todo mercadeo.
 
 
+¿Cómo se resumiría la relevancia para el negocio?
 
-Outline:
+Nuestra solución usa modelos de IA Generativa, también llamados modelos fundacionales, para optimizar los procesos relacionados con la pauta del área de mercadeo, potenciándolos con el uso de la data histórica, mediante una interfaz sencilla. Esto permite ahorrar muchas horas de trabajo a los distintos invlolucrados y mejora la eficiencia de los recursos. Los gastos relacionados con este proceso frente a las agencias oscilan entre los 200 y los 300 millones de pesos y si bien no todo está relacionado con estos procedimientos podríamos igual hacernos una idea de lo que una reducción del 50% en los tiempos generaría en beneficios.
 
+Es de destacar que la privacidad de la información está resguardada por cuanto nunca se ingresa información a servicios de terceros y todos los datos se usan en un entorno local o nube controlado.
 
-Overview de la solución. Incluye las preguntas y respuestas que habíamos desarrollado con la coach.
-La relevancia de la funcionalidad para el negocio. Por qué es útil, qué genera. Énfasis en el tiempo qeu se ahorra, en tiempo de analista interno y tiempo de agencia, que a pesar de qe no se recuepra se maximiza, potencialmente cuántos usuarios ya nalistas se beneficiarían.
+¿Qué se viene para el futuro?
 
+Si la idea encuentra respaldo, la herramienta tiene varias líneas en las que puede crecer. En primera medida se puede agregar la posibilidad de iterar sobre las imágenes generadas, ajustando temas como estilos predefinidos y permitiendo ingresar un bosquejo o dibujo de base.
 
+De la misma manera, en algún punto puede dársele una interfaz tipo chatbot, que asista en los deberes del día a día de los analistas y cuya funcionalidad no se limite a ser un generador de imágenes.
 
+[Volver al inicio](#yenni_ad)
 
+-----------------------------
 
-Descripción en palabras y junto con la representación gráfica de la solución.
-Se incluye cómo fue el manejo de lso datos, es decir, cómo se llevaron los datos al modelo.
-
-
-Se incluyen temas como la usabilidad, los distintos componentes, el alcance y futuros desarrollos. (Solidez metodológica)
-
-Cómo se lidió con los sesgos? Error del modelo
-
-Puebas unitarias si aplican.
-
-UX del usuario (FRont) agregar el videodemo.
+## Pruebas unitarias y manejo de sesgos del modelo.
 
 
-Cómo llegamos a la solución.
+El uso de los modelos de IA generativa comporta un riesgo de sesgos derivados de la data con la que fueron entrenados. En el caso del clip_interrogator, esto podría evidenciarse en que las descripciones tendieran a ser principalmente sobre adultos blancos jóvenes. No obstante se ensayó con imágenes usadas en pauta que mostraban población indígena y esta característica fue detectada e incluida en la descripción de manera automática.
 
-Los distintos roles y la distribución del trabajo.
-Creativodad.
+Unido a esto, al solicitar la integración de distintas descripciones en un mismo prompt, se tiene el control para solicitar que s eincorpore elementos clave adicionales que el modelo siempre deberá tener en cuenta, tales como la naturalidad de las personas, la calidez de las imágenes y en general las que vienen determinadas por el manual de marca.
+
+Adicional a esto, dentro de los parámetros configurables del modelo está el de la "escala de guianza" (CFG, en inglés), que controla qué tanto de la descripción se debe seguir al pie de la letra y qué tanto puede dejarse a la "creatividad" del modelo y al azar.
+
+Este parámetro cobra aún más relevancia cuando se hace énfasis en que se presenta un cambio importante en la marca: se decide empezar a usar personas más reales, más representativas de Colombia, en contraposición a imágenes de catálogos que tenían ragos notoriamente extranjeros. 
+
+Si bien esta situación podía presentar algún inconveniente teniendo en cuenta que el modelo se alimenta de las piezas históricas, las descripciones obtenidas mediante CLIP se usaron en un nivel medio de profundidad, lo que hace que estas no fueran demasiado al detalle, sino que fueran una descripción de la composición general junto con los estilos.
+
+
+Aún más. Al hacer pruebas con distintos prompts, se encontró que los resultados obtenidos no eran particularmente reflejo de alguna etnicidad en particular y que al incluir palabras como indigenous o local, o incluso colombian, el modelo hacía un buen trabajo generando imágenes con una buena calidad de referencia.
+
+Finalmente, debe decirse que las imágenes generadas no pasan a ser usadas en la pauta, simplemente constituyen una fuente adicional de inspiración, y es que las agencias deben usar imágenes del banco de imágenes del banco, por lo que habría un filtro adicional de seguridad en ese sentido. Las imágenes generadas permiten comunicar mejor la idea y eventualmente buscar la foto o fotos (dentro de la colección del banco, que reflejen esa idea).
+
+También es cierto que no siempre se obtienen los reusltados deseados al primer intento, por lo que cuando se habilite en el futuro la opción de iterar y regenerar las imágenes, esto tendría el efecto secundario de permitir combatir los sesgos en caso de que las imágenes generadas adolezcan de ellos.
+
+[Volver al inicio](#yenni_ad)
+
+------------------------
+
+
+
+
+## Los Roles de los participantes y la historia de cómo llegamos a la solución.
+
+Antes de mencionar los perfiles de los integrantes del grupo y de los roles que cada uno tuvo en el desarrollo de este producto, partamos de cómo llegamos al tema de la IA Generativa.
+Al pertenecer todos del área de mercadeo, estamos rodeados de mucho contenido audiovisual. No obstante hacer parte de nuestro día a día una gran porción de nuestras actividades está relacionada es con los datos que se generan a partir de los distintos contenidos. Es decir la mayoría del tiempo estamos lidiando con datos principalmente estructurados. 
+
+Siendo personas curiosas e interesadas por aprender, empezamos a idear y a pensar con el equipo sobre qué productos o servicios podríamos brindar, desde nuestras habilidades complementarias, teniendo en cuenta especialmente los desarrollos en IA que se fueron presentando de una manera explosiva y que parecen haberse acelerado con la salida de ChatGPT. Pensamos en sistemas de reconocimiento facial para hacer estudios sobre las reacciones de la gente frente a las piezas de video, visión computacional para detectar objetos y clasificarlos dentro de las piezas y una gran cantidad de ideas. 
+
+Nos fuimos preparando e investigando sobre distintos temas relacionados y luego la convocatoria para la Academia Bintec fue lo qeu unió todas esas ideas y les dio forma. Vimos que había una gran cantidad de datos sin explotar en la pauta y modelos que permitían darle un toque llamativo a los ejercicios y procesos del día a día que podían generar valor y de paso nos permitirían aprender sobre temas nuevos e interesantes.
+
+Es en ese momento que decidimos juntarnos teniendo en cuenta, como fue mencionado, nuestras distintas habilidades complementarias. Veamos pues quiénes somos y qué roles tuvimos en el desarrollo del proyecto:
+
+- **Camilo Andrés De la Cruz Arboleda:** Se desempeña como Científico de Datos en asuntos relacionados principalmente con Fidelización y Marca. Apasionado por la generación de contenido audiovisual a partir de IA, fue el encargado de conectar los distintos modelos (CLIP, Llama2, SDXL) que permitían llegar a la generación de imágenes.  
+
+- **Alejandro Mendoza Foronda:** Se desempeña como Ingeniero de Datos, apoyando equipos de manera transversal en todo lo relacionado con disponibilizar los datos y la generación de audiencias en Segment. Un enamorado de los servicios de nube, fue quien tuvo a cargo el planteamiento y desarrollo de la arquitectura mediante los servicios de AWS, para conectar todas las piezas de la solución.
+
+- **Santiago Humberto Londoño Restrepo:** Se desempeña como Científico de Datos en asuntos relacionados con Ecosistemas, o especíicamente, en los tu360's (inmobiliario, compras, etc). Un demente de la analítica de datos y de encontrar patrones ocultos, fue quien estuvo a cargo de encontrar la mejor manera de detectar las imágenes con el mejor rendimiento de acuerdo con los objetivos buscados y los indicadores. Adicionalmente coordinó varios de los encuentros con los analistas, para entender mejor sus necesidades y su día a día.
+
+- **Gustavo Ernesto Ramírez Espinoza:** Se desempeña como Ingeniero de Software y es quien le da el toque mágico a la interfaz. Obsesionado con el Front-end, es todo un experto en frameworks y en generar diseños limpios, sencillos y con una gran experiencia de usuario, que además sean utilizables en distintos dispositivos sin problema. Como es de suponerse fue el encargado de realizar la interfaz web en la que reposa Yenni.
+
+[Volver al inicio](#yenni_ad)
+
+### Reconocimientos y agradecimientos:
+Al líder del área Juan Pablo Duque quien siempre estuvo dispuesto a apoyarnos en lo que se requiriera y nos dio la posibilidad y los tiempos para dedicarle a la herramienta.
+
+A los organizadores, por fomentar el crecimiento personal y el intraemprendimiento.
